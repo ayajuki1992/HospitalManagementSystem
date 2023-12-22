@@ -4,13 +4,6 @@ from Doctor import Doctor
 class Admin:
     """A class that deals with the Admin operations"""
     def __init__(self, username, password, address = ''):
-        """
-        Args:
-            username (string): Username
-            password (string): Password
-            address (string, optional): Address Defaults to ''
-        """
-
         self.__username = username
         self.__password = password
         self.__address =  address
@@ -37,12 +30,16 @@ class Admin:
         print("-----Login-----")
         #Get the details of the admin
 
-        username = input('Enter the username: ')
-        password = input('Enter the password: ')
+        entered_username = input('Enter the username: ')
+        entered_password = input('Enter the password: ')
 
         # check if the username and password match the registered ones
-        #ToDo1
-        pass
+        if entered_username == self.__username and entered_password == self.__password:
+            print('Login successful!')
+            return True
+        else:
+            print('Incorrect username or password.')
+            return False
 
     def find_index(self,index,doctors):
         
