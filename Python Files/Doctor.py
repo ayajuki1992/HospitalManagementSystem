@@ -1,7 +1,7 @@
 class Doctor:
     """A class that deals with the Doctor operations"""
 
-    def __init__(self, first_name, surname, speciality):
+    def __init__(self, first_name, surname, speciality,):
         """
         Args:
             first_name (string): First name
@@ -31,7 +31,7 @@ class Doctor:
         return self.__surname
 
     def set_surname(self, new_surname):
-        self.__first_name = new_surname
+        self.__surname = new_surname
 
     def get_speciality(self) :
         return self.__speciality

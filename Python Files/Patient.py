@@ -14,11 +14,9 @@ class Patient:
     def full_name(self) :
         return f"{self.__patient_firstname} {self.__patient_surname}"       
      
-
-
     def get_doctor(self) :
        return self.__doctor
-
+   
     def link(self, doctor):
         """Args: doctor(string): the doctor full name"""
         self.__doctor = doctor
@@ -29,3 +27,4 @@ class Patient:
 
     def __str__(self):
         return f'{self.full_name():^30}|{self.__doctor:^30}|{self.__age:^5}|{self.__mobile:^15}|{self.__postcode:^10}'
+    

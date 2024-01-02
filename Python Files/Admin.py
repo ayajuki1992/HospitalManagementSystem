@@ -53,15 +53,17 @@ class Admin:
             return False
             
     def get_doctor_details(self) :
-        """
-        Get the details needed to add a doctor
-        Returns:
-            first name, surname and ...
-                            ... the speciality of the doctor in that order.
-        """
-        #ToDo2
-        pass
-
+       print("-----Doctor Setup-----")
+       print()
+       print("Please enter the details necessary to assign a new doctor.")
+       first_name = input("First Name: ")
+       surname = input("Surname: ")
+       speciality = input("Speciality: ")
+       
+       return first_name, surname, speciality
+       
+       
+       
     def doctor_management(self, doctors):
         """
         A method that deals with registering, viewing, updating, deleting doctors
@@ -88,21 +90,28 @@ class Admin:
 
             # get the doctor details
             print('Enter the doctor\'s details:')
-            #ToDo4
-            pass
-
+            print()
+            first_name = input("Please enter the name of the doctor you wish to register: ")
+            print()
+            surname = input("Please enter the surname of the doctor that you wish to register: ")
+            print()
+            speciality = input("Please enter the speciality of the doctor that you wish to register: ")
+    
+            
+            
             # check if the name is already registered
             name_exists = False
             for doctor in doctors:
                 if first_name == doctor.get_first_name() and surname == doctor.get_surname():
                     print('Name already exists.')
-                    #ToDo5
-                    pass # save time and end the loop
+                    break
+                
+            else:
+                new_doctor = Doctor(first_name, surname, speciality)
+                doctors.append(new_doctor)
+                print()
+                print("New doctor succesfully registered.")
 
-            #ToDo6
-            pass# add the doctor ...
-                                                         # ... to the list of doctors
-            print('Doctor registered.')
 
         # View
         elif op == '2':
