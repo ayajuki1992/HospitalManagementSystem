@@ -55,12 +55,12 @@ class Admin:
     def get_doctor_details(self) :
        print("-----Doctor Setup-----")
        print()
-       print("Please enter the details necessary to assign a new doctor.")
+       print("Please enter the details necessary.")
        first_name = input("First Name: ")
        surname = input("Surname: ")
        speciality = input("Speciality: ")
        
-       return first_name, surname, speciality
+       return f"{first_name} {surname} {speciality}"
        
        
        
@@ -79,11 +79,7 @@ class Admin:
         print(' 2 - View')
         print(' 3 - Update')
         print(' 4 - Delete')
-
-        #ToDo3
-        pass
-
-
+ 
         # register
         if op == '1':
             print("-----Register-----")
@@ -116,8 +112,11 @@ class Admin:
         # View
         elif op == '2':
             print("-----List of Doctors-----")
-            #ToDo7
-            pass
+            if not doctors:
+                print("No doctors currently registered.")
+            else:
+                for index, doctor in enumerate(doctors, start=1):
+                    print(f'{index} {doctor.full_name()} - {doctor.get_speciality()}')
 
         # Update
         elif op == '3':
@@ -144,31 +143,44 @@ class Admin:
 
             # menu
             print('Choose the field to be updated:')
-            print(' 1 First name')
-            print(' 2 Surname')
-            print(' 3 Speciality')
+            print(' 1. First name')
+            print(' 2. Surname')
+            print(' 3. Speciality')
             op = int(input('Input: ')) # make the user input lowercase
 
-            #ToDo8
-            pass
-
+            if op == ("1"):
+                update_firstname = input("Please enter the NEW FORENAME for the doctor you are changing: ")
+                doctors[doctor_index].set_first_name(update_firstname)
+                print(f"The doctor's name has been changed to: {update_firstname}")
+                
+            if op == ("2"):
+                update_surname = input("Please enter the NEW SURNAME for the doctor you are changing: ")
+                doctors[doctor_index].set_surname(update_surname)
+                print(f"The doctor's name has been changed to: {update_surname}")
+                
+            if op == ("3"):
+                update_speciality = input("Please enter the NEW SPECIALITY for the doctor you are changing: ")
+                doctors[doctor_index].set_speciality(update_speciality)
+                print(f"The doctor's name has been changed to: {update_speciality}")
+                
         # Delete
         elif op == '4':
             print("-----Delete Doctor-----")
             print('ID |          Full Name           |  Speciality')
             self.view(doctors)
-
-            doctor_index = input('Enter the ID of the doctor to be deleted: ')
-            #ToDo9
-            pass
-
-           
-            print('The id entered is incorrect')
-
-        # if the id is not in the list of patients
-        else:
-            print('Invalid operation choosen. Check your spelling!')
-
+            try:
+                doctor_index = input('Enter the ID of the doctor to be deleted: ')
+                if 0 <= doctor_index < len(doctors):
+                    deleteConfirmation = input(f"Are your SURE you want to delete {doctors[doctor_index].full_name()}? (Y/N): ")
+                    
+                    if deleteConfirmation == "Y" or "y":
+                        del doctors[doctor_index]
+                    else:
+                        print(f"Deletion of {doctors[doctor_index].full_name()} ABORTED!")
+                else:
+                    print("The ID that was entered is not correct.")
+            except ValueError:
+                print("Invalid Input! Please ensure to write a VALID ID number!")
 
     def view_patient(self, patients):
         """
