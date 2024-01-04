@@ -189,9 +189,12 @@ class Admin:
             patients (list<Patients>): list of all the active patients
         """
         print("-----View Patients-----")
-        print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
-        #ToDo10
-        pass
+        print('ID |          Full Name           |      Patients`s Full Name      | Age |    Mobile     | Postcode ')
+        if not patients:
+                print("No patients currently registered.")
+        else:
+            for index, patient in enumerate(patients, start=1):
+                print(f'{index} {patient.full_name()} - {patient.get_age()}- {patient.get_mobile()} - {patient.get_postcode()}')
 
     def assign_doctor_to_patient(self, patients, doctors):
         """
@@ -236,12 +239,15 @@ class Admin:
 
             # check if the id is in the list of doctors
             if self.find_index(doctor_index,doctors)!=False:
+                    selected_patient = patients[patient_index]
+                    selected_doctor = doctors[doctor_index]
                     
-                # link the patients to the doctor and vice versa
-                #ToDo11
-                pass
                 
-                print('The patient is now assign to the doctor.')
+                    selected_patient.link(selected_doctor)
+                    selected_doctor.add_patient(selected_patient)
+               
+                
+                    print('The patient is now assigned to the doctor.')
 
             # if the id is not in the list of doctors
             else:
