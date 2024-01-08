@@ -10,8 +10,8 @@ def main():
 
     # Initialising the actors
     admin = Admin('admin','123','B1 1AB') # username is 'admin', password is '123'
-    doctors = [Doctor('John','Smith','Internal Med.'), Doctor('Jone','Smith','Pediatrics'), Doctor('Jone','Carlos','Cardiology')]
-    patients = [Patient('Sara','Smith', 20, '07012345678','B1 234'), Patient('Mike','Jones', 37,'07555551234','L2 2AB'), Patient('Daivd','Smith', 15, '07123456789','C1 ABC')]
+    doctors_list = [Doctor('John','Smith','Internal Med.'), Doctor('Jone','Smith','Pediatrics'), Doctor('Jone','Carlos','Cardiology')]
+    patients_list = [Patient('Sara','Smith', 20, '07012345678','B1 234'), Patient('Mike','Jones', 37,'07555551234','L2 2AB'), Patient('Daivd','Smith', 15, '07123456789','C1 ABC')]
     discharged_patients = []
 
     # keep trying to login tell the login details are correct
@@ -36,9 +36,8 @@ def main():
         op = input('Option: ')
 
         if op == '1':
-            # 1- Register/view/update/delete doctor
-         #ToDo1
-          pass
+           admin.doctor_management(doctors_list)
+      
 
         elif op == '2':
             # 2- View or discharge patients
@@ -66,7 +65,7 @@ def main():
 
         elif op == '4':
             # 4- Assign doctor to a patient
-            admin.assign_doctor_to_patient(patients, doctors)
+            admin.assign_doctor_to_patient(Patient, Doctor)
 
         elif op == '5':
             # 5- Update admin detais

@@ -79,6 +79,8 @@ class Admin:
         print(' 2 - View')
         print(' 3 - Update')
         print(' 4 - Delete')
+
+        op = input("Please select the menu you wish to enter: ")
  
         # register
         if op == '1':
@@ -116,7 +118,10 @@ class Admin:
                 print("No doctors currently registered.")
             else:
                 for index, doctor in enumerate(doctors, start=1):
+                    print()
+                 
                     print(f'{index} {doctor.full_name()} - {doctor.get_speciality()}')
+                    print()
 
         # Update
         elif op == '3':
@@ -146,19 +151,19 @@ class Admin:
             print(' 1. First name')
             print(' 2. Surname')
             print(' 3. Speciality')
-            op = int(input('Input: ')) # make the user input lowercase
+            UpdateOP = int(input('Input: '))
 
-            if op == ("1"):
+            if UpdateOP == (1):
                 update_firstname = input("Please enter the NEW FORENAME for the doctor you are changing: ")
                 doctors[doctor_index].set_first_name(update_firstname)
                 print(f"The doctor's name has been changed to: {update_firstname}")
                 
-            if op == ("2"):
+            if UpdateOP == (2):
                 update_surname = input("Please enter the NEW SURNAME for the doctor you are changing: ")
                 doctors[doctor_index].set_surname(update_surname)
                 print(f"The doctor's name has been changed to: {update_surname}")
                 
-            if op == ("3"):
+            if UpdateOP == (3):
                 update_speciality = input("Please enter the NEW SPECIALITY for the doctor you are changing: ")
                 doctors[doctor_index].set_speciality(update_speciality)
                 print(f"The doctor's name has been changed to: {update_speciality}")
@@ -169,7 +174,7 @@ class Admin:
             print('ID |          Full Name           |  Speciality')
             self.view(doctors)
             try:
-                doctor_index = input('Enter the ID of the doctor to be deleted: ')
+                doctor_index = int(input('Enter the ID of the doctor to be deleted: '))
                 if 0 <= doctor_index < len(doctors):
                     deleteConfirmation = input(f"Are your SURE you want to delete {doctors[doctor_index].full_name()}? (Y/N): ")
                     
