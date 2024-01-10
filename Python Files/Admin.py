@@ -1,4 +1,5 @@
 from Doctor import Doctor
+from Patient import Patient
 
 
 
@@ -11,14 +12,31 @@ class Admin:
         self.address = address
         self.discharged_patients = discharged_patients
 
-    def view(self,a_list):
+        
+    def view (self, a_list):
         """
-        print a list
+        Print a list of patients or doctors.
         Args:
-            a_list (list): a list of printables
-        """
-        for index, item in enumerate(a_list):
-            print(f'{index+1:3}|{item}')
+        a_list (list): a list of printables (either patients or doctors)
+    """
+        if not a_list:
+            print("No items to display.")
+        else:
+            # checking if the first item in the list is patient or doctor 
+            if isinstance(a_list[0], Patient):
+                print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
+            elif isinstance(a_list[0], Doctor):
+                print('ID |          Full name           |  Speciality')
+            else:
+                print('ID |          Item')
+                
+            for index, item in enumerate(a_list, start=1):
+                if isinstance(item, Patient):
+                    print(f'{index} {item.full_name()} - {item.get_age()}- {item.get_mobile()} - {item.get_postcode()}')
+                elif isinstance(item, Doctor):
+                    print(f'{index} {item.full_name()} - {item.get_speciality()}')
+                else:
+                    print(f'{index} {item}')
 
     def login(self) :
         """
@@ -156,17 +174,17 @@ class Admin:
             print(' 3. Speciality')
             UpdateOP = int(input('Input: '))
 
-            if UpdateOP == (1):
+            if UpdateOP == 1:
                 update_firstname = input("Please enter the NEW FORENAME for the doctor you are changing: ")
                 doctors[doctor_index].set_first_name(update_firstname)
                 print(f"The doctor's name has been changed to: {update_firstname}")
                 
-            if UpdateOP == (2):
+            if UpdateOP == 2:
                 update_surname = input("Please enter the NEW SURNAME for the doctor you are changing: ")
                 doctors[doctor_index].set_surname(update_surname)
                 print(f"The doctor's name has been changed to: {update_surname}")
                 
-            if UpdateOP == (3):
+            if UpdateOP == 3:
                 update_speciality = input("Please enter the NEW SPECIALITY for the doctor you are changing: ")
                 doctors[doctor_index].set_speciality(update_speciality)
                 print(f"The doctor's name has been changed to: {update_speciality}")
@@ -177,7 +195,7 @@ class Admin:
             print('ID |          Full Name           |  Speciality')
             self.view(doctors)
             try:
-                doctor_index = int(input('Enter the ID of the doctor to be deleted: '))
+                doctor_index = int(input('Enter the ID of the doctor to be deleted: '))-1
                 if 0 <= doctor_index < len(doctors):
                     deleteConfirmation = input(f"Are your SURE you want to delete {doctors[doctor_index].full_name()}? (Y/N): ")
                     
