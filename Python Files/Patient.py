@@ -26,7 +26,7 @@ class Patient:
         return self.__symptoms
 
     def __str__(self):
-        return f'{self.full_name():^30}|{self.__doctor:^30}|{self.__age:^5}|{self.__mobile:^15}|{self.__postcode:^10}'
+        return f'{self.full_name():^30}|{self.__doctor:^30}|{self.__patient_age:^5}|{self.__patient_mobile:^15}|{self.__patient_postcode:^10}'
     
     def get_first_name(self) :
         return self.__first_name

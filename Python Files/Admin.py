@@ -1,12 +1,15 @@
 from Doctor import Doctor
 
 
+
+
 class Admin:
     """A class that deals with the Admin operations"""
-    def __init__(self, username, password, address = ''):
+    def __init__(self, username, password, address = '', discharged_patients=None):
         self.__username = username
         self.__password = password
-        self.__address =  address
+        self.address = address
+        self.discharged_patients = discharged_patients
 
     def view(self,a_list):
         """
@@ -271,10 +274,26 @@ class Admin:
         """
         print("-----Discharge Patient-----")
 
-        patient_index = input('Please enter the patient ID: ')
+        self.view(self)
+        try:
+            patient_index = int(input('Enter the ID of the patient to be deleted: ')) -1
+            if 0 <= patient_index < len(patients):
+                patient_to_discharge = patients[patient_index]
+                discharge_Confirmation = input(f"Are your SURE you want to discharge {patients[patient_index].full_name()}? (Y/N): ")
+                    
+                if discharge_Confirmation == "Y" or "y":
 
-        #ToDo12
-        pass
+                    discharge_patients.append(patient_to_discharge)
+                else:
+                    print(f"Discharge of {patients[patient_index].full_name()} ABORTED!")
+            else:
+                print("The ID that was entered is not correct.")
+
+        except ValueError:
+            print("Invalid Input! Please ensure to write a VALID ID number!")
+
+        return patients, discharge_patients
+        
 
     def view_discharge(self, discharged_patients):
         """
@@ -283,10 +302,10 @@ class Admin:
             discharge_patients (list<Patients>): the list of all the non-active patients
         """
 
-        print("-----Discharged Patients-----")
         print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
-        #ToDo13
-        pass
+        for i, patient in enumerate(discharged_patients, start=1):
+            print(f"{i}. {patient.full_name} {patient.get_doctor} {patient.get_age} {patient.get_mobile} {patient.get_postcode}")
+
 
     def update_details(self):
         """
@@ -300,20 +319,39 @@ class Admin:
         op = int(input('Input: '))
 
         if op == 1:
-            #ToDo14
-            pass
+           new_username = input('Enter the new username: ')
+           # validate the password
+           if new_username == input('Enter the new username again: '):
+               self.__username = new_username
+           else:
+            print("")
+            print("Username re-verification failed! Username unchanged!")
+
 
         elif op == 2:
-            password = input('Enter the new password: ')
+           new_password = input('Enter the new password: ')
             # validate the password
-            if password == input('Enter the new password again: '):
-                self.__password = password
+           if new_password == input('Enter the new password again: '):
+                self.__password = new_password
+           else:
+                print("")
+                print("Password re-verification failed! Password unchanged!")
 
         elif op == 3:
-            #ToDo15
-            pass
+            new_address = input('Enter the new address: ')
+            # validate the address
+            if new_address == input('Re-enter the new address: '):
+                self.address = new_address
+                print("Address updated successfully!")
+            else:
+                print("")
+                print("Address re-verification failed! Address unchanged!")
+
+           
 
         else:
-            #ToDo16
-            pass
+            print()
+            print("Invalid input!")
+            print()
+            Admin.update_details()
 
