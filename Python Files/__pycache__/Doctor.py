@@ -19,6 +19,9 @@ class Doctor:
     def full_name(self) :
         return f"{self.__first_name} {self.__surname}"       
      
+    def add_patient(self, patient): 
+        self.__patients.append(patient)
+
 
     def get_first_name(self) :
         return self.__first_name

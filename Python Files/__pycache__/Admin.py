@@ -12,42 +12,11 @@ class Admin:
         self.address = address
         self.discharged_patients = discharged_patients
 
-        
-    def view (self, a_list):
-        """
-        Print a list of patients or doctors.
-        Args:
-        a_list (list): a list of printables (either patients or doctors)
-    """
-        if not a_list:
-            print("No items to display.")
-        else:
-            # checking if the first item in the list is patient or doctor 
-            if isinstance(a_list[0], Patient):
-                print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
-            elif isinstance(a_list[0], Doctor):
-                print('ID |          Full name           |  Speciality')
-            else:
-                print('ID |          Item')
-                
-            for index, item in enumerate(a_list, start=1):
-                if isinstance(item, Patient):
-                    print(f'{index} {item.full_name()} - {item.get_age()}- {item.get_mobile()} - {item.get_postcode()}')
-                elif isinstance(item, Doctor):
-                    print(f'{index} {item.full_name()} - {item.get_speciality()}')
-                else:
-                    print(f'{index} {item}')
+    doctors_list = [Doctor('John','Smith','Internal Med.'), Doctor('Jone','Smith','Pediatrics'), Doctor('Jone','Carlos','Cardiology')]
+
 
     def login(self) :
-        """
-        A method that deals with the login
-        Raises:
-            Exception: returned when the username and the password ...
-                    ... don`t match the data registered
-        Returns:
-            string: the username
-        """
-    
+          
         print("-----Login-----")
         #Get the details of the admin
 
@@ -209,92 +178,68 @@ class Admin:
                 print("Invalid Input! Please ensure to write a VALID ID number!")
 
     def view_patient(self, patients):
-        """
-        print a list of patients
-        Args:
-            patients (list<Patients>): list of all the active patients
-        """
+        # a list of patients
+
         print("-----View Patients-----")
         print('ID |          Full Name           |      Patients`s Full Name      | Age |    Mobile     | Postcode ')
-        if not patients:
-                print("No patients currently registered.")
+        for i, patient in enumerate(patients, start=1):
+            print(i,f'{patient.full_name()} - {patient.get_age()} - {patient.get_mobile()} - {patient.get_postcode()}')
+
+
+    def view_doctor(self, doctors):
+        print("-----List of Doctors-----")
+        if not doctors:
+            print("No doctors currently registered.")
         else:
-            for index, patient in enumerate(patients, start=1):
-                print(f'{index} {patient.full_name()} - {patient.get_age()}- {patient.get_mobile()} - {patient.get_postcode()}')
+            print(doctors)
+
+
 
     def assign_doctor_to_patient(self, patients, doctors):
-        """
-        Allow the admin to assign a doctor to a patient
-        Args:
-            patients (list<Patients>): the list of all the active patients
-            doctors (list<Doctor>): the list of all the doctors
-        """
-        print("-----Assign-----")
-
-        print("-----Patients-----")
         print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
-        self.view(patients)
-
-        patient_index = input('Please enter the patient ID: ')
-
+        self.view_patient(patients)
+                  
         try:
             # patient_index is the patient ID mines one (-1)
-            patient_index = int(patient_index) -1
+            patient_index = int(input('Enter the ID of the patient: ')) -1
+            
+
 
             # check if the id is not in the list of patients
             if patient_index not in range(len(patients)):
                 print('The id entered was not found.')
                 return # stop the procedures
+        
+            symptoms_add = input("Enter the patient's symptoms: ")
+            patients[patient_index].symptom_new(symptoms_add)
+       
 
-        except ValueError: # the entered id could not be changed into an int
-            print('The id entered is incorrect')
-            return # stop the procedures
+            print("-----Doctors Select-----")
+            print('Select the doctor that fits these symptoms:')
+            patients[patient_index].print_symptoms() # print the patient symptoms
 
-        print("-----Doctors Select-----")
-        print('Select the doctor that fits these symptoms:')
-        patients[patient_index].print_symptoms() # print the patient symptoms
+            print('--------------------------------------------------')
+            print('ID |          Full Name           |  Speciality   ')
+            self.view_doctor(doctors)
+            doctor_index = int(input('Please enter the doctor ID: ')) - 1
 
-        print('--------------------------------------------------')
-        print('ID |          Full Name           |  Speciality   ')
-        self.view(doctors)
-        doctor_index = input('Please enter the doctor ID: ')
-
-        try:
-            # doctor_index is the patient ID mines one (-1)
-            doctor_index = int(doctor_index) -1
-
-            # check if the id is in the list of doctors
-            if self.find_index(doctor_index,doctors)!=False:
-                    selected_patient = patients[patient_index]
-                    selected_doctor = doctors[doctor_index]
-                    
-                
-                    selected_patient.link(selected_doctor)
-                    selected_doctor.add_patient(selected_patient)
-               
-                
-                    print('The patient is now assigned to the doctor.')
-
-            # if the id is not in the list of doctors
+            if 0 <= doctor_index < len(doctors):
+                patients[patient_index].assign_doctor_to_patients(doctors[doctor_index])
+                print("Assignment was successful")
             else:
-                print('The id entered was not found.')
-
-        except ValueError: # the entered id could not be changed into an in
-            print('The id entered is incorrect')
+                print("Invalid ID")
+        
+        except ValueError:
+            print("Invalid ID")
+    
 
 
     def discharge(self, patients, discharge_patients):
-        """
-        Allow the admin to discharge a patient when treatment is done
-        Args:
-            patients (list<Patients>): the list of all the active patients
-            discharge_patients (list<Patients>): the list of all the non-active patients
-        """
         print("-----Discharge Patient-----")
-
-        self.view(self)
+        self.view_patient(patients)
         try:
             patient_index = int(input('Enter the ID of the patient to be deleted: ')) -1
+            
             if 0 <= patient_index < len(patients):
                 patient_to_discharge = patients[patient_index]
                 discharge_Confirmation = input(f"Are your SURE you want to discharge {patients[patient_index].full_name()}? (Y/N): ")
@@ -314,15 +259,13 @@ class Admin:
         
 
     def view_discharge(self, discharged_patients):
-        """
-        Prints the list of all discharged patients
-        Args:
-            discharge_patients (list<Patients>): the list of all the non-active patients
-        """
+
 
         print('ID |          Full Name           |      Doctor`s Full Name      | Age |    Mobile     | Postcode ')
         for i, patient in enumerate(discharged_patients, start=1):
-            print(f"{i}. {patient.full_name} {patient.get_doctor} {patient.get_age} {patient.get_mobile} {patient.get_postcode}")
+            print(f"{i}. {patient.full_name()} {patient.get_doctor()} {patient.get_age()} {patient.get_mobile()} {patient.get_postcode()}")
+        else:
+            print("No discharged patients")
 
 
     def update_details(self):
