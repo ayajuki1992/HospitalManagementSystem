@@ -14,17 +14,20 @@ class Patient:
         return f"{self.__patient_firstname} {self.__patient_surname}"
 
     def get_doctor(self):
-        return self.__doctor
+        return self.__doctor if self.__doctor != 'None' else None
 
     def link(self, doctor):
         self.__doctor = doctor
+        
+    def assign_doctor_to_patients(self, doctor):
+        self.link(doctor)
 
     def symptom_new(self, symptoms_add):
         self.__symptoms.extend(symptoms_add)
 
     def print_symptoms(self):
-        """prints all the symptoms"""
-        return self.__symptoms
+        """returns a formatted string of symptoms"""
+        return ''.join(self.__symptoms) if self.__symptoms else 'None'
 
     def __str__(self):
         return f'{self.full_name():^30}|{self.__doctor:^30}|{self.__patient_age:^5}|{self.__patient_mobile:^15}|{self.__patient_postcode:^10}'
@@ -55,3 +58,6 @@ class Patient:
 
     def get_postcode(self):
         return self.__patient_postcode
+
+
+   

@@ -14,6 +14,7 @@ def main():
     patients_list = [Patient('Sara','Smith', 20, '07012345678','B1 234'), Patient('Mike','Jones', 37,'07555551234','L2 2AB'), Patient('Daivd','Smith', 15, '07123456789','C1 ABC')]
     discharged_patients = []
 
+
     # keep trying to login tell the login details are correct
     while True:
         if admin.login():
@@ -21,6 +22,7 @@ def main():
             break
         else:
             print('Incorrect username or password.')
+                
 
     while running:
         # print the menu
@@ -30,7 +32,8 @@ def main():
         print(' 3- View discharged patient')
         print(' 4- Assign doctor to a patient')
         print(' 5- Update admin detais')
-        print(' 6- Quit')
+        print(' 6- Write patient details to file')
+        print(' 7- Quit')
 
         # get the option
         op = input('Option: ')
@@ -47,19 +50,26 @@ def main():
 
         elif op == '4':
             # 4- Assign doctor to a patient
-            admin.assign_doctor_to_patient(patients_list, Doctor)
+            admin.assign_doctor_to_patient(patients_list, doctors_list)
+
 
         elif op == '5':
             # 5- Update admin detais
             admin.update_details()
-
+        
         elif op == '6':
+            # 6- Write patient details to file
+            file_path = input("Enter the file path to save patient details (Example: /DirectoryName/filename): ")
+            admin.write_patient_info_to_file(patients_list, file_path)
+
+
+        elif op == '7':
             # 6 - Quit
             print()
             print("Logging out...")
             print()
             print("Goodbye!")
-            break
+            admin.login()
            
 
         else:
